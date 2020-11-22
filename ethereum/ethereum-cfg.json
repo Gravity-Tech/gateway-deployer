@@ -1,0 +1,17 @@
+{
+  "GravityBftCoefficient": 1,
+  "NodeUrl": "http://app-cccba780-bc8c-4cfb-9cba-d566055a5e2c.cls-dec3c32b-4f06-462f-b827-dee931d39a72.ankr.com",
+  "PrivKey": "",
+  "ConsulsAddress": [
+    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
+    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
+    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
+    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
+    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1"
+  ],
+  "NewERC20Config": {
+    "Name": "TST",
+    "Symbol": "TST",
+    "TokenOwnerForLUPort": "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1"
+  }
+}

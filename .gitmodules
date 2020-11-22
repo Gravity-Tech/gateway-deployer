@@ -1,0 +1,8 @@
+[submodule "gateway"]
+	path = gateway
+	branch = main
+	url = https://github.com/Gravity-Tech/gateway
+[submodule "core"]
+	path = core
+	branch = refactoring
+	url = https://github.com/Gravity-Tech/gravity-core
