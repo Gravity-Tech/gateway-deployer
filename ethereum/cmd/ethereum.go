@@ -76,23 +76,24 @@ func deploy(ctx *cli.Context) error {
 
 	ethDeployer := deployer.NewEthDeployer(ethClient, bind.NewKeyedTransactor(privateKey))
 
-	fmt.Println("Deploy gravity contract")
-	gravityAddress, err := ethDeployer.DeployGravity(cfg.ConsulsAddress, cfg.GravityBftCoefficient, ctx.Context)
-	if err != nil {
-		return err
-	}
+	//fmt.Println("Deploy gravity contract")
+	//gravityAddress, err := ethDeployer.DeployGravity(cfg.ConsulsAddress, cfg.GravityBftCoefficient, ctx.Context)
+	//if err != nil {
+	//	return err
+	//}
 
-	luPort, err := ethDeployer.DeployPort(gravityAddress, int(deployer.BytesType),
-		cfg.ExistingTokenAddress,
-		nil,
-		cfg.GravityBftCoefficient,
-		deployer.LUPort,
-		ctx.Context,
-	)
-	if err != nil {
-		return err
-	}
+	//luPort, err := ethDeployer.DeployPort(gravityAddress, int(deployer.BytesType),
+	//	cfg.ExistingTokenAddress,
+	//	nil,
+	//	cfg.GravityBftCoefficient,
+	//	deployer.LUPort,
+	//	ctx.Context,
+	//)
+	//if err != nil {
+	//	return err
+	//}
 
+	gravityAddress := "0x3eE1Fb061f2cE12Ff613D94948530070D11EDd0F"
 	ibPort, err := ethDeployer.DeployPort(gravityAddress, int(deployer.BytesType),
 		cfg.ExistingTokenAddress,
 		nil,
@@ -104,12 +105,12 @@ func deploy(ctx *cli.Context) error {
 		return err
 	}
 
-	fmt.Printf("Gravity address: %s\n", gravityAddress)
-
-	fmt.Printf("---------LU port---------: \n")
-	fmt.Printf("Port address: %s\n", luPort.PortAddress)
-	fmt.Printf("Nebula address: %s\n", luPort.NebulaAddress)
-	fmt.Printf("Token address: %s\n", luPort.ERC20Address)
+	//fmt.Printf("Gravity address: %s\n", gravityAddress)
+	//
+	//fmt.Printf("---------LU port---------: \n")
+	//fmt.Printf("Port address: %s\n", luPort.PortAddress)
+	//fmt.Printf("Nebula address: %s\n", luPort.NebulaAddress)
+	//fmt.Printf("Token address: %s\n", luPort.ERC20Address)
 
 	fmt.Printf("---------IB port---------: \n")
 	fmt.Printf("Port address: %s\n", ibPort.PortAddress)

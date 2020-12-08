@@ -2,6 +2,7 @@ package deployer
 
 import (
 	"context"
+	"github.com/ethereum/go-ethereum/core/types"
 	"math/big"
 
 	"github.com/Gravity-Tech/gateway/abi/ethereum/erc20"
@@ -43,6 +44,9 @@ func NewEthDeployer(ethClient *ethclient.Client, transactor *bind.TransactOpts) 
 func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, existingTokenAddress string,
 	oracles []common.Address, bftCoefficient int, portType PortType, ctx context.Context) (*GatewayPort, error) {
 
+	nebulaAddressStr := "0x30E7598e4f0c73A2F32c0C04E85CeAe1Cb52A531"
+	nebulaAddress := common.HexToAddress(nebulaAddressStr)
+
 	erc20Address := common.HexToAddress(existingTokenAddress)
 	erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
 
@@ -50,23 +54,13 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 		return nil, err
 	}
 
-	nebulaAddress, tx, nebula, err := ethereum.DeployNebula(
-		deployer.transactor,
-		deployer.ethClient,
-		uint8(dataType),
-		common.HexToAddress(gravityAddress),
-		oracles,
-		big.NewInt(int64(bftCoefficient)),
-	)
+	nebula, err := ethereum.NewNebula(nebulaAddress, deployer.ethClient)
+
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = bind.WaitMined(ctx, deployer.ethClient, tx)
-	if err != nil {
-		return nil, err
-	}
-
+	var tx *types.Transaction
 	var portAddress common.Address
 	switch portType {
 	case IBPort:
