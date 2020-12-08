@@ -83,7 +83,7 @@ func deploy(ctx *cli.Context) error {
 	}
 
 	luPort, err := ethDeployer.DeployPort(gravityAddress, int(deployer.BytesType),
-		cfg.NewERC20,
+		cfg.ExistingTokenAddress,
 		nil,
 		cfg.GravityBftCoefficient,
 		deployer.LUPort,
@@ -94,7 +94,7 @@ func deploy(ctx *cli.Context) error {
 	}
 
 	ibPort, err := ethDeployer.DeployPort(gravityAddress, int(deployer.BytesType),
-		cfg.NewERC20,
+		cfg.ExistingTokenAddress,
 		nil,
 		cfg.GravityBftCoefficient,
 		deployer.IBPort,

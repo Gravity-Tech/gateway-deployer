@@ -2,7 +2,6 @@ package deployer
 
 import (
 	"context"
-	"integration-test/config"
 	"math/big"
 
 	"github.com/Gravity-Tech/gateway/abi/ethereum/erc20"
@@ -41,20 +40,12 @@ func NewEthDeployer(ethClient *ethclient.Client, transactor *bind.TransactOpts) 
 	}
 }
 
-func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, erc20Setting config.NewERC20,
+func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, existingTokenAddress string,
 	oracles []common.Address, bftCoefficient int, portType PortType, ctx context.Context) (*GatewayPort, error) {
 
-	erc20Address, tx, erc20Token, err := erc20.DeployToken(
-		deployer.transactor,
-		deployer.ethClient,
-		erc20Setting.Name,
-		erc20Setting.Symbol,
-	)
-	if err != nil {
-		return nil, err
-	}
+	erc20Address := common.HexToAddress(existingTokenAddress)
+	erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
 
-	_, err = bind.WaitMined(ctx, deployer.ethClient, tx)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +89,7 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, erc
 	case IBPort:
 		owner = portAddress
 	case LUPort:
-		owner = common.HexToAddress(erc20Setting.TokenOwnerForLUPort)
+		owner = portAddress
 	}
 
 	tx, err = erc20Token.AddMinter(deployer.transactor, owner)

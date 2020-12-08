@@ -1,0 +1,18 @@
+{
+  "GravityScriptFile": "./core/abi/waves/gravity.abi",
+  "NebulaScriptFile": "./core/abi/waves/nebula.abi",
+  "SubMockScriptFile": "./gateway/abi/waves/luport.abi",
+  "NodeUrl": "https://nodes-stagenet.wavesnodes.com",
+  "ChainId": 83,
+  "DistributionSeed": "amused plastic celery broken ladder loop category budget muscle shrimp foam february common mercy clay",
+  "GravityContractSeed": "various middle hard already skate fan disorder always maid device muscle hat agent pretty balcony",
+  "NebulaContractSeed": "defense west endless maze warfare piano cigar sense vivid gasp path kangaroo cover intact chat",
+  "SubscriberContractSeed": "region option elevator lounge kangaroo promote announce anger picnic amused quote initial spy mushroom select",
+  "ConsulsAddressList": [
+    "3MiWzaZexfDwzrymSWjdRK6ANjwLwg1NddM",
+    "3MR7HnTsUWtjbR94zv2AvJZqdrfFftocg9c",
+    "3MkekyNas9UJcevJRRnL6qHRq5Lh6XetQMU",
+    "3Mftp6EfYGm5BH8TNfBoJnMRvWLMXvEtuXL",
+    "3MZHJfKz4Lfa6m1WRhURGH6cSjnaj5ZDHaw"
+  ]
+}
