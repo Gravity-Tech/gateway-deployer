@@ -2,11 +2,10 @@ package deployer
 
 import (
 	"context"
-	"github.com/ethereum/go-ethereum/core/types"
+	"fmt"
 	"math/big"
 
-	"github.com/Gravity-Tech/gateway/abi/ethereum/erc20"
-
+	erc20 "github.com/Gravity-Tech/gateway/abi/ethereum/erc20"
 	"github.com/Gravity-Tech/gateway/abi/ethereum/ibport"
 	"github.com/Gravity-Tech/gateway/abi/ethereum/luport"
 	"github.com/Gravity-Tech/gravity-core/abi/ethereum"
@@ -41,33 +40,25 @@ func NewEthDeployer(ethClient *ethclient.Client, transactor *bind.TransactOpts) 
 	}
 }
 
-func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, existingTokenAddress string,
+func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, existingToken string,
 	oracles []common.Address, bftCoefficient int, portType PortType, ctx context.Context) (*GatewayPort, error) {
 
-	nebulaAddressStr := "0x30E7598e4f0c73A2F32c0C04E85CeAe1Cb52A531"
-	nebulaAddress := common.HexToAddress(nebulaAddressStr)
+	//erc20Address, tx, _, err := link.DeployLinkToken(
+	//	deployer.transactor,
+	//	deployer.ethClient,
+	//)
 
-	erc20Address := common.HexToAddress(existingTokenAddress)
-	erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
+	erc20Address := common.HexToAddress(existingToken)
+	fmt.Printf("ERC20: %v \n", erc20Address.String())
 
-	if err != nil {
-		return nil, err
-	}
-
-	nebula, err := ethereum.NewNebula(nebulaAddress, deployer.ethClient)
-
-	if err != nil {
-		return nil, err
-	}
-
-	var tx *types.Transaction
-	var portAddress common.Address
-	switch portType {
-	case IBPort:
-		portAddress, tx, _, err = ibport.DeployIBPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
-	case LUPort:
-		portAddress, tx, _, err = luport.DeployLUPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
-	}
+	nebulaAddress, tx, nebula, err := ethereum.DeployNebula(
+		deployer.transactor,
+		deployer.ethClient,
+		uint8(dataType),
+		common.HexToAddress(gravityAddress),
+		oracles,
+		big.NewInt(int64(bftCoefficient)),
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -77,16 +68,13 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 		return nil, err
 	}
 
-	var owner common.Address
-
+	var portAddress common.Address
 	switch portType {
 	case IBPort:
-		owner = portAddress
+		portAddress, tx, _, err = ibport.DeployIBPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
 	case LUPort:
-		owner = portAddress
+		portAddress, tx, _, err = luport.DeployLUPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
 	}
-
-	tx, err = erc20Token.AddMinter(deployer.transactor, owner)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +101,7 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 	}, nil
 }
 
-func (deployer *EthDeployer) Fauset(erc20Address string, receiver string, amount int64, ctx context.Context) (string, error) {
+func (deployer *EthDeployer) Faucet(erc20Address string, receiver string, amount int64, ctx context.Context) (string, error) {
 	erc20Token, err := erc20.NewToken(common.HexToAddress(erc20Address), deployer.ethClient)
 	if err != nil {
 		return "", err

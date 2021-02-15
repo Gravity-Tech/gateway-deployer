@@ -1,13 +1,14 @@
 {
   "GravityBftCoefficient": 1,
-  "NodeUrl": "https://bsc-dataseed.binance.org",
-  "PrivKey": "52558b64d2a45b90ffec0feda2238851b96068940dfab67407d328ebdf796161",
+  "NodeUrl": "https://api.avax-test.network/ext/bc/C/rpc",
+  "PrivKey": "69bf8f0d4659575397657d5ef743cbcec96b58b3b72387793c42fec70b164f46",
   "ConsulsAddress": [
-    "0x975Eebf9f2b38D7C576a58eD331bE7c5a9630C41",
-    "0x975Eebf9f2b38D7C576a58eD331bE7c5a9630C41",
-    "0x975Eebf9f2b38D7C576a58eD331bE7c5a9630C41",
-    "0x975Eebf9f2b38D7C576a58eD331bE7c5a9630C41",
-    "0x975Eebf9f2b38D7C576a58eD331bE7c5a9630C41"
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE"
   ],
-  "ExistingTokenAddress": "0x496d451dDAB0F79346f773CbC2eb7Aee58446019"
+  "ExistingTokenAddress": "0x5F4d50E2F60aEf61140A87377cE6465306E7EC02"
 }

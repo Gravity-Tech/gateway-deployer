@@ -3,7 +3,7 @@ module integration-test
 go 1.14
 
 require (
-	github.com/Gravity-Tech/gateway v0.0.0-20201124091823-5afa09c94e82
+	github.com/Gravity-Tech/gateway v0.0.0-20210211113914-8dc0d583886e
 	github.com/Gravity-Tech/gravity-core v1.0.2-0.20201104145346-2a5b10abdd59
 	github.com/dgraph-io/badger v1.6.1
 	github.com/ethereum/go-ethereum v1.9.23
