@@ -40,7 +40,7 @@ var (
 				},
 			},
 			{
-				Name:        "fauset",
+				Name:        "faucet",
 				Usage:       "Get test token",
 				Description: "",
 				Action:      faucet,
