@@ -45,8 +45,8 @@ func main() {
 
 func Deploy() (*DeploymentConfig, error) {
 	const (
-		BftValue    = 3
-		Wavelet     = 1e8
+		BftValue = 3
+		Wavelet  = 1e8
 	)
 
 	var testConfig DeploymentConfig
@@ -55,6 +55,10 @@ func Deploy() (*DeploymentConfig, error) {
 	cfg, err := LoadDeploymentConfig(configFile)
 	if err != nil {
 		return nil, err
+	}
+
+	if cfg.AssetID == "" {
+		return nil, fmt.Errorf("valid asset id is not provided")
 	}
 
 	wClient, err := wavesClient.NewClient(wavesClient.Options{ApiKey: "", BaseUrl: cfg.NodeUrl})
@@ -123,20 +127,21 @@ func Deploy() (*DeploymentConfig, error) {
 		Timestamp: wavesClient.NewTimestampFromTime(time.Now()),
 		Transfers: []proto.MassTransferEntry{
 			{
-				Amount:    2 * Wavelet,
+				Amount:    1 * Wavelet,
 				Recipient: gravityAddressRecipient,
 			},
 			{
-				Amount:    2 * Wavelet,
+				Amount:    1 * Wavelet,
 				Recipient: nebulaAddressRecipient,
 			},
 			{
-				Amount:    2 * Wavelet,
+				Amount:    1 * Wavelet,
 				Recipient: subAddressRecipient,
 			},
 		},
 		Attachment: &proto.LegacyAttachment{},
 	}
+
 	err = massTx.Sign(cfg.ChainId, distributionSeed)
 	if err != nil {
 		return nil, err
@@ -159,7 +164,7 @@ func Deploy() (*DeploymentConfig, error) {
 		return nil, err
 	}
 
-	err = deployer.DeploySubWaves(testConfig.Client, testConfig.Helper, subScript, cfg.ChainId, testConfig.Sub.Secret, testConfig.Ctx)
+	err = deployer.DeploySubWaves(testConfig.Client, testConfig.Helper, subScript, nebulaAddressRecipient.String(), cfg.AssetID, cfg.ChainId, testConfig.Sub.Secret, testConfig.Ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -170,6 +175,8 @@ func Deploy() (*DeploymentConfig, error) {
 	if err != nil {
 		return nil, err
 	}
+
+
 
 	return &testConfig, nil
 }

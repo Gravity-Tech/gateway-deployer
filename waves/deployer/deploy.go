@@ -15,7 +15,16 @@ import (
 	"github.com/wavesplatform/gowaves/pkg/proto"
 )
 
-func DeployGravityWaves(client *wavesClient.Client, helper wavesHelper.ClientHelper, gravityScript []byte, consuls []string, bftValue int64, chainId byte, secret wavesCrypto.SecretKey, ctx context.Context) error {
+func DeployGravityWaves(
+	client *wavesClient.Client,
+	helper wavesHelper.ClientHelper,
+	gravityScript []byte,
+	consuls []string,
+	bftValue int64,
+	chainId byte,
+	secret wavesCrypto.SecretKey,
+	ctx context.Context,
+) error {
 	id, err := DeployWavesContract(client, gravityScript, chainId, secret, ctx)
 
 	if err != nil {
@@ -31,8 +40,12 @@ func DeployGravityWaves(client *wavesClient.Client, helper wavesHelper.ClientHel
 
 	id, err = DataWavesContract(client, chainId, secret, proto.DataEntries{
 		&proto.StringDataEntry{
-			Key:   "consuls",
+			Key:   "consuls_0",
 			Value: strings.Join(consuls, ","),
+		},
+		&proto.IntegerDataEntry{
+			Key:   "last_round",
+			Value: 0,
 		},
 		&proto.IntegerDataEntry{
 			Key:   "bft_coefficient",
@@ -50,6 +63,7 @@ func DeployGravityWaves(client *wavesClient.Client, helper wavesHelper.ClientHel
 
 	return nil
 }
+
 func DeployNebulaWaves(client *wavesClient.Client, helper wavesHelper.ClientHelper, nebulaScript []byte, gravityAddress string, subscriberAddress string,
 	oracles []string, bftValue int64, dataType contracts.ExtractorType, chainId byte, secret wavesCrypto.SecretKey, ctx context.Context) error {
 
@@ -73,10 +87,20 @@ func DeployNebulaWaves(client *wavesClient.Client, helper wavesHelper.ClientHelp
 		&proto.IntegerDataEntry{
 			Key:   "bft_coefficient",
 			Value: bftValue,
-		}, &proto.StringDataEntry{
+		},
+		&proto.StringDataEntry{
+            Key:   "contract_pubkey",
+            Value: wavesCrypto.GeneratePublicKey(secret).String(),
+        },
+		&proto.IntegerDataEntry{
+            Key:   "last_round",
+            Value: 0,
+        },
+		&proto.StringDataEntry{
 			Key:   "subscriber_address",
 			Value: subscriberAddress,
-		}, &proto.StringDataEntry{
+		},
+		&proto.StringDataEntry{
 			Key:   "gravity_contract",
 			Value: gravityAddress,
 		},
@@ -96,20 +120,54 @@ func DeployNebulaWaves(client *wavesClient.Client, helper wavesHelper.ClientHelp
 
 	return nil
 }
-
-func DeploySubWaves(client *wavesClient.Client, helper wavesHelper.ClientHelper, subScript []byte, chainId byte, secret wavesCrypto.SecretKey, ctx context.Context) error {
+// Subscriber
+func DeploySubWaves(
+	client *wavesClient.Client,
+	helper wavesHelper.ClientHelper,
+	subScript []byte,
+	assetId, nebulaAddress string,
+	chainId byte,
+	secret wavesCrypto.SecretKey,
+	ctx context.Context,
+) error {
 	id, err := DeployWavesContract(client, subScript, chainId, secret, ctx)
 	if err != nil {
 		return err
 	}
 
+	// Script deployment
 	err = <-helper.WaitTx(id, ctx)
 	if err != nil {
 		return err
 	}
 
+	id, err = DataWavesContract(client, chainId, secret, proto.DataEntries{
+		&proto.StringDataEntry{
+            Key:   "nebula_address",
+            Value: nebulaAddress,
+        },
+        &proto.StringDataEntry{
+            Key:   "asset_id",
+            Value: assetId,
+        },
+        &proto.IntegerDataEntry{
+            Key:   "type",
+            Value: 2, // byte type
+        },
+    }, ctx)
+
+    if err != nil {
+        return err
+    }
+
+    err = <-helper.WaitTx(id, ctx)
+    if err != nil {
+        return err
+    }
+
 	return nil
 }
+
 func DeployWavesContract(client *wavesClient.Client, contactScript []byte, chainId byte, secret wavesCrypto.SecretKey, ctx context.Context) (string, error) {
 	tx := &proto.SetScriptWithProofs{
 		Type:      proto.SetScriptTransaction,
@@ -132,6 +190,7 @@ func DeployWavesContract(client *wavesClient.Client, contactScript []byte, chain
 
 	return tx.ID.String(), nil
 }
+
 func DataWavesContract(client *wavesClient.Client, chainId byte, secret wavesCrypto.SecretKey, dataEntries proto.DataEntries, ctx context.Context) (string, error) {
 	tx := &proto.DataWithProofs{
 		Type:      proto.DataTransaction,
