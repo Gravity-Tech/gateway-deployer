@@ -43,12 +43,14 @@ func NewEthDeployer(ethClient *ethclient.Client, transactor *bind.TransactOpts) 
 func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, existingToken string,
 	oracles []common.Address, bftCoefficient int, portType PortType, ctx context.Context) (*GatewayPort, error) {
 
-	//erc20Address, tx, _, err := link.DeployLinkToken(
-	//	deployer.transactor,
-	//	deployer.ethClient,
-	//)
-
 	erc20Address := common.HexToAddress(existingToken)
+	erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
+
+	if err != nil {
+		return nil, err
+	}
+
+
 	fmt.Printf("ERC20: %v \n", erc20Address.String())
 
 	nebulaAddress, tx, nebula, err := ethereum.DeployNebula(
@@ -69,12 +71,24 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 	}
 
 	var portAddress common.Address
+
 	switch portType {
 	case IBPort:
 		portAddress, tx, _, err = ibport.DeployIBPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
 	case LUPort:
 		portAddress, tx, _, err = luport.DeployLUPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
 	}
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = bind.WaitMined(ctx, deployer.ethClient, tx)
+	if err != nil {
+		return nil, err
+	}
+
+	owner := portAddress
+	tx, err = erc20Token.AddMinter(deployer.transactor, owner)
 	if err != nil {
 		return nil, err
 	}
