@@ -38,6 +38,7 @@ type Config struct {
 	NodeUrl           string
 	DistributionSeed  string
 	ChainId           byte
+	AssetID           string `json:"AssetID"`
 }
 
 type RideErr struct {
@@ -47,8 +48,8 @@ type RideErr struct {
 type Account struct {
 	Address string
 	// In case of waves: Secret is private key actually
-	Secret  crypto.SecretKey
-	PubKey  crypto.PublicKey
+	Secret crypto.SecretKey
+	PubKey crypto.PublicKey
 }
 
 type DeploymentConfig struct {
@@ -59,15 +60,14 @@ type DeploymentConfig struct {
 }
 type DeploymentConfigFile struct {
 	Config
-	GravityContractSeed    string
-	NebulaContractSeed     string
+	GravityContractSeed string
+	NebulaContractSeed  string
 	// Considered as LU_port in SuSy case
 	SubscriberContractSeed string
 
 	// TEMP:
-	ConsulsAddressList     []string
+	ConsulsPubKeys []string
 }
-
 
 func LoadDeploymentConfig(filename string) (DeploymentConfigFile, error) {
 	file, err := ioutil.ReadFile(filename)
@@ -80,7 +80,6 @@ func LoadDeploymentConfig(filename string) (DeploymentConfigFile, error) {
 	}
 	return config, err
 }
-
 
 func LoadConfig(filename string) (Config, error) {
 	file, err := ioutil.ReadFile(filename)

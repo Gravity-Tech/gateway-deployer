@@ -1,13 +1,14 @@
 {
   "GravityBftCoefficient": 1,
-  "NodeUrl": "http://app-cccba780-bc8c-4cfb-9cba-d566055a5e2c.cls-dec3c32b-4f06-462f-b827-dee931d39a72.ankr.com",
-  "PrivKey": "",
+  "NodeUrl": "https://api.avax-test.network/ext/bc/C/rpc",
+  "PrivKey": "69bf8f0d4659575397657d5ef743cbcec96b58b3b72387793c42fec70b164f46",
   "ConsulsAddress": [
-    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
-    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
-    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
-    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1",
-    "0xa95BEf4b2227Dd46B349002C85acbc09a02F95F1"
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE"
   ],
-  "ExistingTokenAddress": "0x09C62Eb4793eF6E967411D5D2BD6C4EF7d087f1F"
+  "ExistingTokenAddress": "0x5F4d50E2F60aEf61140A87377cE6465306E7EC02"
 }
