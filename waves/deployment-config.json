@@ -8,5 +8,5 @@
   "GravityContractSeed": "this is seed",
   "NebulaContractSeed": "this is seed",
   "SubscriberContractSeed": "this is seed",
-  "ConsulsAddressList": []
+  "ConsulsPubKeys": ["list", "of", "pub", "keys", "always 5 items length"]
 }

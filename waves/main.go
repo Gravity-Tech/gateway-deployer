@@ -4,8 +4,9 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	wavesCrypto "github.com/wavesplatform/go-lib-crypto"
 	"time"
+
+	wavesCrypto "github.com/wavesplatform/go-lib-crypto"
 
 	"rh_tests/contracts"
 	"rh_tests/deployer"
@@ -14,8 +15,9 @@ import (
 
 	"github.com/wavesplatform/gowaves/pkg/crypto"
 
-	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 	"rh_tests/helpers"
+
+	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 )
 
 const (
@@ -68,7 +70,7 @@ func Deploy() (*DeploymentConfig, error) {
 	testConfig.Client = wClient
 	testConfig.Helper = helpers.NewClientHelper(testConfig.Client)
 
-	testConfig.Consuls = cfg.ConsulsAddressList
+	testConfig.Consuls = cfg.ConsulsPubKeys
 
 	testConfig.Gravity, err = GenerateAddressFromSeed(cfg.ChainId, cfg.GravityContractSeed)
 	if err != nil {

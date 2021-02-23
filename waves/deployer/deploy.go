@@ -2,13 +2,14 @@ package deployer
 
 import (
 	"context"
+	"log"
 	"strings"
 	"time"
-	"log"
 
 	"rh_tests/contracts"
 
 	wavesHelper "rh_tests/helpers"
+
 	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 	wavesCrypto "github.com/wavesplatform/gowaves/pkg/crypto"
 
@@ -19,7 +20,7 @@ func DeployGravityWaves(
 	client *wavesClient.Client,
 	helper wavesHelper.ClientHelper,
 	gravityScript []byte,
-	consuls []string,
+	consulsPubKeys []string,
 	bftValue int64,
 	chainId byte,
 	secret wavesCrypto.SecretKey,
@@ -41,7 +42,7 @@ func DeployGravityWaves(
 	id, err = DataWavesContract(client, chainId, secret, proto.DataEntries{
 		&proto.StringDataEntry{
 			Key:   "consuls_0",
-			Value: strings.Join(consuls, ","),
+			Value: strings.Join(consulsPubKeys, ","),
 		},
 		&proto.IntegerDataEntry{
 			Key:   "last_round",

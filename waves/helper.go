@@ -66,7 +66,7 @@ type DeploymentConfigFile struct {
 	SubscriberContractSeed string
 
 	// TEMP:
-	ConsulsAddressList []string
+	ConsulsPubKeys []string
 }
 
 func LoadDeploymentConfig(filename string) (DeploymentConfigFile, error) {
