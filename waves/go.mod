@@ -1,9 +1,8 @@
-module rh_tests
+module github.com/Gravity-Tech/gateway-deployer/waves
 
-go 1.14
+go 1.16
 
 require (
-	github.com/ethereum/go-ethereum v1.9.20
 	github.com/wavesplatform/go-lib-crypto v0.0.0-20190905125804-474f21517ad5
-	github.com/wavesplatform/gowaves v0.7.0
+	github.com/wavesplatform/gowaves v0.8.7
 )

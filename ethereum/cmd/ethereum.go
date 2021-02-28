@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"integration-test/config"
-	"integration-test/deployer"
+	"github.com/Gravity-Tech/gateway-deployer/ethereum/config"
+	"github.com/Gravity-Tech/gateway-deployer/ethereum/deployer"
 	"strconv"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"

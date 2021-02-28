@@ -8,14 +8,14 @@ import (
 
 	wavesCrypto "github.com/wavesplatform/go-lib-crypto"
 
-	"rh_tests/contracts"
-	"rh_tests/deployer"
+	"github.com/Gravity-Tech/gateway-deployer/waves/contracts"
+	"github.com/Gravity-Tech/gateway-deployer/waves/deployer"
 
 	"github.com/wavesplatform/gowaves/pkg/proto"
 
 	"github.com/wavesplatform/gowaves/pkg/crypto"
 
-	"rh_tests/helpers"
+	"github.com/Gravity-Tech/gateway-deployer/waves/helpers"
 
 	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 )

@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"integration-test/cmd"
+	"github.com/Gravity-Tech/gateway-deployer/ethereum/cmd"
 
 	"github.com/urfave/cli/v2"
 )

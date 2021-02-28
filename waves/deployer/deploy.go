@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"rh_tests/contracts"
+	"github.com/Gravity-Tech/gateway-deployer/waves/contracts"
 
-	wavesHelper "rh_tests/helpers"
+	wavesHelper "github.com/Gravity-Tech/gateway-deployer/waves/helpers"
 
 	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 	wavesCrypto "github.com/wavesplatform/gowaves/pkg/crypto"

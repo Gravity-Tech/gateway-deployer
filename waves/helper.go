@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"rh_tests/helpers"
+	"github.com/Gravity-Tech/gateway-deployer/waves/helpers"
 
 	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 
