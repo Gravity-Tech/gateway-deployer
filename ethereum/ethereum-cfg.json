@@ -1,0 +1,14 @@
+{
+  "GravityBftCoefficient": 1,
+  "NodeUrl": "https://api.avax-test.network/ext/bc/C/rpc",
+  "PrivKey": "",
+  "ConsulsAddress": [
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE",
+    "0xc6FFd270946246C0Eb0b1a3f8134E5fafb959bCE"
+  ],
+  "ExistingTokenAddress": "0x5F4d50E2F60aEf61140A87377cE6465306E7EC02"
+}

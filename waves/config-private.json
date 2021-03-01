@@ -1,0 +1,8 @@
+{
+  "GravityScriptFile": "./scripts/gravity",
+  "NebulaScriptFile": "./scripts/nebula",
+  "SubMockScriptFile": "./scripts/subMockBytes",
+  "NodeUrl": "http://waves:6869",
+  "ChainId": 82,
+  "DistributionSeed": "waves private node seed with waves tokens"
+}

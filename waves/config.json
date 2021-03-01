@@ -1,0 +1,15 @@
+{
+  "GravityScriptFile": "../core/abi/waves/gravity.abi",
+  "NebulaScriptFile": "../core/abi/waves/nebula.abi",
+  "SubMockScriptFile": "../gateway/abi/waves/luport.abi",
+  "NodeUrl": "https://nodes-stagenet.wavesnodes.com",
+  "ChainId": 83,
+  "DistributionSeed": "amused plastic celery broken ladder loop category budget muscle shrimp foam february common mercy clay",
+  "GravityContractSeed": "try cradle accident lumber naive convince ladder peace child shaft spend mention host draft pigeon",
+  "NebulaContractSeed": "rely weather attitude kiwi found slot south kid upon agree negative oil lyrics company stuff",
+  "SubscriberContractSeed": "disease dish reward arrest eight use weasel wing nature key symptom earn question dance erode",
+  "AssetID": "some asset id",
+  "ConsulsPubKeys": [
+    "3zzYrrzwoA7YuaxmRkNRqfiCLnptVifixTjsX9UggBjb"
+  ]
+}

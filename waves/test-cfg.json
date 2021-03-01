@@ -1,0 +1,20 @@
+{
+  "GravityScriptFile": "../core/abi/waves/gravity.abi",
+  "NebulaScriptFile": "../core/abi/waves/nebula.abi",
+  "SubMockScriptFile": "../gateway/abi/waves/luport.abi",
+  "NodeUrl": "https://nodes-stagenet.wavesnodes.com",
+  "ChainId": 83,
+  "DistributionSeed": "amused plastic celery broken ladder loop category budget muscle shrimp foam february common mercy clay",
+  "GravityContractSeed": "reform squeeze wagon noble tag increase minimum shove once excite rely depart adjust venue admit",
+  "NebulaContractSeed": "flower endorse bread velvet say tiny hybrid mule usage sentence sick decide list deliver wolf",
+  "SubscriberContractSeed": "famous riot camp frozen fury invest submit member tape wealth drop child school toe news",
+  "AssetID": "some asset id",
+  "ConsulsAddressList": [
+    "3MV2vM2NBHaDjqxYNHEHR89vqigrHe7k9Mx",
+    "3MV2vM2NBHaDjqxYNHEHR89vqigrHe7k9Mx",
+    "3MV2vM2NBHaDjqxYNHEHR89vqigrHe7k9Mx",
+    "3MV2vM2NBHaDjqxYNHEHR89vqigrHe7k9Mx",
+    "3MV2vM2NBHaDjqxYNHEHR89vqigrHe7k9Mx",
+    "3MV2vM2NBHaDjqxYNHEHR89vqigrHe7k9Mx"
+  ]
+}
