@@ -33,3 +33,8 @@ oracle/config.*.json
 # Deploy vendor
 nebula-address.txt
 migration.txt
+
+waves/waves
+waves/config.json
+ethereum/ethereum
+ethereum/ethereum-cfg.json
