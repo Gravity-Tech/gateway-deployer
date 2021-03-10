@@ -46,7 +46,6 @@ func main() {
 
 func Deploy() (*DeploymentConfig, error) {
 	const (
-		BftValue = 3
 		Wavelet  = 1e8
 	)
 
@@ -124,19 +123,19 @@ func Deploy() (*DeploymentConfig, error) {
 		Type:      proto.MassTransferTransaction,
 		Version:   1,
 		SenderPK:  crypto.GeneratePublicKey(distributionSeed),
-		Fee:       5000000,
+		Fee:       0.005 * Wavelet,
 		Timestamp: wavesClient.NewTimestampFromTime(time.Now()),
 		Transfers: []proto.MassTransferEntry{
 			{
-				Amount:    1 * Wavelet,
+				Amount:    0.5 * Wavelet,
 				Recipient: gravityAddressRecipient,
 			},
 			{
-				Amount:    1 * Wavelet,
+				Amount:    0.5 * Wavelet,
 				Recipient: nebulaAddressRecipient,
 			},
 			{
-				Amount:    1 * Wavelet,
+				Amount:    0.5 * Wavelet,
 				Recipient: subAddressRecipient,
 			},
 		},
@@ -160,7 +159,7 @@ func Deploy() (*DeploymentConfig, error) {
 	for _, v := range testConfig.Consuls {
 		consulsString = append(consulsString, v)
 	}
-	err = deployer.DeployGravityWaves(testConfig.Client, testConfig.Helper, gravityScript, consulsString, BftValue, cfg.ChainId, testConfig.Gravity.Secret, testConfig.Ctx)
+	err = deployer.DeployGravityWaves(testConfig.Client, testConfig.Helper, gravityScript, consulsString, cfg.BftValue, cfg.ChainId, testConfig.Gravity.Secret, testConfig.Ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -170,9 +169,9 @@ func Deploy() (*DeploymentConfig, error) {
 		return nil, err
 	}
 
-	oraclesString := make([]string, 0)
+	oraclesString := consulsString[:]
 	err = deployer.DeployNebulaWaves(testConfig.Client, testConfig.Helper, nebulaScript, testConfig.Gravity.Address,
-		testConfig.Sub.Address, oraclesString, BftValue, contracts.BytesType, cfg.ChainId, testConfig.Nebula.Secret, testConfig.Ctx)
+		testConfig.Sub.Address, oraclesString, cfg.BftValue, contracts.BytesType, cfg.ChainId, testConfig.Nebula.Secret, testConfig.Ctx)
 	if err != nil {
 		return nil, err
 	}

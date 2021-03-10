@@ -63,6 +63,7 @@ type DeploymentConfigFile struct {
 	GravityContractSeed string
 	NebulaContractSeed  string
 	// Considered as LU_port in SuSy case
+	BftValue            int64
 	SubscriberContractSeed string
 
 	// TEMP:

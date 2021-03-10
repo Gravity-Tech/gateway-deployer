@@ -1,0 +1,8 @@
+{
+  "GravityBftCoefficient": 1,
+  "NodeUrl": "",
+  "ChainID": 250,
+  "PrivKey": "",
+  "ConsulsAddress": [],
+  "ExistingTokenAddress": ""
+}
