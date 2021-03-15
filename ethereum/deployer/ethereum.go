@@ -22,6 +22,17 @@ const (
 
 type PortType int
 
+func (t PortType) Format() string {
+	switch t {
+	case LUPort:
+		return "LU Port"
+	case IBPort:
+		return "IB Port"
+	}
+
+	return ""
+}
+
 type GatewayPort struct {
 	PortAddress   string
 	NebulaAddress string
@@ -44,11 +55,11 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 	oracles []common.Address, bftCoefficient int, portType PortType, ctx context.Context) (*GatewayPort, error) {
 
 	erc20Address := common.HexToAddress(existingToken)
-	erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
-
-	if err != nil {
-		return nil, err
-	}
+	//erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
+	//
+	//if err != nil {
+	//	return nil, err
+	//}
 
 
 	fmt.Printf("ERC20: %v \n", erc20Address.String())
@@ -87,16 +98,16 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 		return nil, err
 	}
 
-	owner := portAddress
-	tx, err = erc20Token.AddMinter(deployer.transactor, owner)
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = bind.WaitMined(ctx, deployer.ethClient, tx)
-	if err != nil {
-		return nil, err
-	}
+	//owner := portAddress
+	//tx, err = erc20Token.AddMinter(deployer.transactor, owner)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//_, err = bind.WaitMined(ctx, deployer.ethClient, tx)
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	tx, err = nebula.Subscribe(deployer.transactor, portAddress, 1, big.NewInt(0))
 	if err != nil {

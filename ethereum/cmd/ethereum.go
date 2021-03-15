@@ -21,6 +21,11 @@ const (
 	DefaultConfig = "ethereum-cfg.json"
 )
 
+const (
+	EvmBasedDirection = "evm-based"
+	NonEvmBasedDirection = "non-evm-based"
+)
+
 var (
 	EthereumCommand = &cli.Command{
 		Name:        "ethereum",
@@ -37,18 +42,9 @@ var (
 						Name:  ConfigFlag,
 						Value: DefaultConfig,
 					},
-				},
-			},
-			{
-				Name:        "fauset",
-				Usage:       "Get test token",
-				Description: "",
-				Action:      faucet,
-				ArgsUsage:   "<erc20Address> <receiver> <tokenAmount>",
-				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:  ConfigFlag,
-						Value: DefaultConfig,
+						Name:  "direction",
+						Value: NonEvmBasedDirection,
 					},
 				},
 			},
@@ -58,6 +54,8 @@ var (
 
 func deploy(ctx *cli.Context) error {
 	cfgPath := ctx.String(ConfigFlag)
+	cfgDirection := ctx.String("direction")
+
 	cfg := new(config.EthereumConfig)
 	config.ParseConfig(cfgPath, cfg)
 
@@ -83,45 +81,33 @@ func deploy(ctx *cli.Context) error {
 		return err
 	}
 
-	luPort, err := ethDeployer.DeployPort(
+	var portType deployer.PortType
+	switch cfgDirection {
+	case NonEvmBasedDirection:
+		portType = deployer.IBPort
+	case EvmBasedDirection:
+		portType = deployer.LUPort
+	}
+
+	port, err := ethDeployer.DeployPort(
 		gravityAddress,
 		int(deployer.BytesType),
 		cfg.ExistingTokenAddress,
 		nil,
 		cfg.GravityBftCoefficient,
-		deployer.LUPort,
+		portType,
 		ctx.Context,
 	)
-
 	if err != nil {
 		return err
 	}
-	//
-	//ibPort, err := ethDeployer.DeployPort(
-	//	gravityAddress,
-	//	int(deployer.BytesType),
-	//	//cfg.ExistingTokenAddress,
-	//	nil,
-	//	cfg.GravityBftCoefficient,
-	//	deployer.IBPort,
-	//	ctx.Context,
-	//)
-	//if err != nil {
-	//	return err
-	//}
 
 	fmt.Printf("Gravity address: %s\n", gravityAddress)
 
-	fmt.Printf("---------LU port---------: \n")
-	fmt.Printf("Port address: %s\n", luPort.PortAddress)
-	fmt.Printf("Nebula address: %s\n", luPort.NebulaAddress)
-	fmt.Printf("Token address: %s\n", luPort.ERC20Address)
-
-	//
-	//fmt.Printf("---------IB port---------: \n")
-	//fmt.Printf("Port address: %s\n", ibPort.PortAddress)
-	//fmt.Printf("Nebula address: %s\n", ibPort.NebulaAddress)
-	//fmt.Printf("Token address: %s\n", ibPort.ERC20Address)
+	fmt.Printf("---------%v---------: \n", portType.Format())
+	fmt.Printf("Port address: %s\n", port.PortAddress)
+	fmt.Printf("Nebula address: %s\n", port.NebulaAddress)
+	fmt.Printf("Token address: %s\n", port.ERC20Address)
 
 	return nil
 }
