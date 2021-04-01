@@ -60,12 +60,11 @@ type DeploymentConfig struct {
 }
 type DeploymentConfigFile struct {
 	Config
-	GravityContractSeed string
-	NebulaContractSeed  string
+	ExistingGravityAddress string
+	NebulaContractSeed     string
 	// Considered as LU_port in SuSy case
-	BftValue            int64
+	BftValue               int64
 	SubscriberContractSeed string
-
 	// TEMP:
 	ConsulsPubKeys []string
 }

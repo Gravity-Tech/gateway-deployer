@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/Gravity-Tech/gateway/abi/ethereum/autostaking-ibport"
 	erc20 "github.com/Gravity-Tech/gateway/abi/ethereum/erc20"
-	"github.com/Gravity-Tech/gateway/abi/ethereum/ibport"
 	"github.com/Gravity-Tech/gateway/abi/ethereum/luport"
 	"github.com/Gravity-Tech/gravity-core/abi/ethereum"
 
@@ -55,12 +55,6 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 	oracles []common.Address, bftCoefficient int, portType PortType, ctx context.Context) (*GatewayPort, error) {
 
 	erc20Address := common.HexToAddress(existingToken)
-	//erc20Token, err := erc20.NewToken(erc20Address, deployer.ethClient)
-	//
-	//if err != nil {
-	//	return nil, err
-	//}
-
 
 	fmt.Printf("ERC20: %v \n", erc20Address.String())
 
@@ -72,6 +66,7 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 		oracles,
 		big.NewInt(int64(bftCoefficient)),
 	)
+
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +77,6 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 	}
 
 	var portAddress common.Address
-
 	switch portType {
 	case IBPort:
 		portAddress, tx, _, err = ibport.DeployIBPort(deployer.transactor, deployer.ethClient, nebulaAddress, erc20Address)
@@ -97,17 +91,6 @@ func (deployer *EthDeployer) DeployPort(gravityAddress string, dataType int, exi
 	if err != nil {
 		return nil, err
 	}
-
-	//owner := portAddress
-	//tx, err = erc20Token.AddMinter(deployer.transactor, owner)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//
-	//_, err = bind.WaitMined(ctx, deployer.ethClient, tx)
-	//if err != nil {
-	//	return nil, err
-	//}
 
 	tx, err = nebula.Subscribe(deployer.transactor, portAddress, 1, big.NewInt(0))
 	if err != nil {
@@ -151,6 +134,7 @@ func (deployer *EthDeployer) Faucet(erc20Address string, receiver string, amount
 
 	return tx.Hash().Hex(), nil
 }
+
 func (deployer *EthDeployer) DeployGravity(consuls [5]string, bftCoefficient int, ctx context.Context) (string, error) {
 	var consulsAddress []common.Address
 
