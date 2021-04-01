@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Gravity-Tech/gateway-deployer/ethereum/config"
 	"github.com/Gravity-Tech/gateway-deployer/ethereum/deployer"
+	"github.com/ethereum/go-ethereum/common"
 	"strconv"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -76,10 +77,13 @@ func deploy(ctx *cli.Context) error {
 	ethDeployer := deployer.NewEthDeployer(ethClient, transactor)
 
 	fmt.Println("Deploy gravity contract")
-	gravityAddress, err := ethDeployer.DeployGravity(cfg.ConsulsAddress, cfg.GravityBftCoefficient, ctx.Context)
-	if err != nil {
-		return err
-	}
+	//gravityAddress, err := ethDeployer.DeployGravity(cfg.ConsulsAddress, cfg.GravityBftCoefficient, ctx.Context)
+	//if err != nil {
+	//	return err
+	//
+	gravityAddress := "0xB883418014e73228F1Ec470714802c59bB49f1eC"
+
+	fmt.Printf("Gravity address: %s\n", gravityAddress)
 
 	var portType deployer.PortType
 	switch cfgDirection {
@@ -89,11 +93,16 @@ func deploy(ctx *cli.Context) error {
 		portType = deployer.LUPort
 	}
 
+	var consulsList []common.Address
+	for _, consul := range cfg.ConsulsAddress {
+		consulsList = append(consulsList, common.HexToAddress(consul))
+	}
+
 	port, err := ethDeployer.DeployPort(
 		gravityAddress,
 		int(deployer.BytesType),
 		cfg.ExistingTokenAddress,
-		nil,
+		consulsList,
 		cfg.GravityBftCoefficient,
 		portType,
 		ctx.Context,
