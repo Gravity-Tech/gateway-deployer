@@ -19,8 +19,8 @@ import (
 
 	"github.com/wavesplatform/gowaves/pkg/crypto"
 
-	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 	"github.com/Gravity-Tech/gravity-core/common/helpers"
+	wavesClient "github.com/wavesplatform/gowaves/pkg/client"
 )
 
 const (

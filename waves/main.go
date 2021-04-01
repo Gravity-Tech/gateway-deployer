@@ -46,7 +46,7 @@ func main() {
 
 func Deploy() (*DeploymentConfig, error) {
 	const (
-		Wavelet  = 1e8
+		Wavelet = 1e8
 	)
 
 	var testConfig DeploymentConfig
@@ -68,11 +68,13 @@ func Deploy() (*DeploymentConfig, error) {
 	testConfig.Client = wClient
 	testConfig.Helper = helpers.NewClientHelper(testConfig.Client)
 
-	testConfig.Consuls = cfg.ConsulsPubKeys
-
-	testConfig.Gravity, err = GenerateAddressFromSeed(cfg.ChainId, cfg.GravityContractSeed)
-	if err != nil {
-		return nil, err
+	testConfig.Consuls = make([]string, 5, 5)
+	for i := 0; i < 5; i++ {
+		if i < len(cfg.ConsulsPubKeys) {
+			testConfig.Consuls[i] = cfg.ConsulsPubKeys[i]
+		} else {
+			testConfig.Consuls[i] = "1"
+		}
 	}
 
 	testConfig.Nebula, err = GenerateAddressFromSeed(cfg.ChainId, cfg.NebulaContractSeed)
@@ -81,11 +83,6 @@ func Deploy() (*DeploymentConfig, error) {
 	}
 
 	testConfig.Sub, err = GenerateAddressFromSeed(cfg.ChainId, cfg.SubscriberContractSeed)
-	if err != nil {
-		return nil, err
-	}
-
-	gravityScript, err := ScriptFromFile(cfg.GravityScriptFile)
 	if err != nil {
 		return nil, err
 	}
@@ -106,10 +103,6 @@ func Deploy() (*DeploymentConfig, error) {
 		return nil, err
 	}
 
-	gravityAddressRecipient, err := proto.NewRecipientFromString(testConfig.Gravity.Address)
-	if err != nil {
-		return nil, err
-	}
 	nebulaAddressRecipient, err := proto.NewRecipientFromString(testConfig.Nebula.Address)
 	if err != nil {
 		return nil, err
@@ -126,10 +119,6 @@ func Deploy() (*DeploymentConfig, error) {
 		Fee:       0.005 * Wavelet,
 		Timestamp: wavesClient.NewTimestampFromTime(time.Now()),
 		Transfers: []proto.MassTransferEntry{
-			{
-				Amount:    0.5 * Wavelet,
-				Recipient: gravityAddressRecipient,
-			},
 			{
 				Amount:    0.5 * Wavelet,
 				Recipient: nebulaAddressRecipient,
@@ -159,10 +148,6 @@ func Deploy() (*DeploymentConfig, error) {
 	for _, v := range testConfig.Consuls {
 		consulsString = append(consulsString, v)
 	}
-	err = deployer.DeployGravityWaves(testConfig.Client, testConfig.Helper, gravityScript, consulsString, cfg.BftValue, cfg.ChainId, testConfig.Gravity.Secret, testConfig.Ctx)
-	if err != nil {
-		return nil, err
-	}
 
 	err = deployer.DeploySubWaves(testConfig.Client, testConfig.Helper, subScript, nebulaAddressRecipient.String(), cfg.AssetID, cfg.ChainId, testConfig.Sub.Secret, testConfig.Ctx)
 	if err != nil {
@@ -170,13 +155,11 @@ func Deploy() (*DeploymentConfig, error) {
 	}
 
 	oraclesString := consulsString[:]
-	err = deployer.DeployNebulaWaves(testConfig.Client, testConfig.Helper, nebulaScript, testConfig.Gravity.Address,
+	err = deployer.DeployNebulaWaves(testConfig.Client, testConfig.Helper, nebulaScript, cfg.ExistingGravityAddress,
 		testConfig.Sub.Address, oraclesString, cfg.BftValue, contracts.BytesType, cfg.ChainId, testConfig.Nebula.Secret, testConfig.Ctx)
 	if err != nil {
 		return nil, err
 	}
-
-
 
 	return &testConfig, nil
 }

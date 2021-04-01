@@ -36,5 +36,6 @@ migration.txt
 
 waves/waves
 waves/config.json
+waves/*.json
 ethereum/ethereum
-ethereum/ethereum-cfg.json
+ethereum/*.json
