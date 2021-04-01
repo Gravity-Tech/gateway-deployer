@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"github.com/Gravity-Tech/gateway-deployer/ethereum/config"
 	"github.com/Gravity-Tech/gateway-deployer/ethereum/deployer"
 	"github.com/ethereum/go-ethereum/common"
@@ -72,7 +73,9 @@ func deploy(ctx *cli.Context) error {
 		return err
 	}
 
-	privateKey, err := crypto.HexToECDSA(cfg.PrivKey)
+	privKey := os.Getenv("DEPLOYER_PRIV_KEY")
+
+	privateKey, err := crypto.HexToECDSA(privKey)
 	if err != nil {
 		return err
 	}

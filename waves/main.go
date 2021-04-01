@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"os"
 	"time"
 
 	wavesCrypto "github.com/wavesplatform/go-lib-crypto"
@@ -98,7 +99,8 @@ func Deploy() (*DeploymentConfig, error) {
 	}
 
 	wCrypto := wavesCrypto.NewWavesCrypto()
-	distributionSeed, err := crypto.NewSecretKeyFromBase58(string(wCrypto.PrivateKey(wavesCrypto.Seed(cfg.DistributionSeed))))
+	distributorPrivKey := os.Getenv("DEPLOYER_PRIV_KEY")
+	distributionSeed, err := crypto.NewSecretKeyFromBase58(string(wCrypto.PrivateKey(wavesCrypto.Seed(distributorPrivKey))))
 	if err != nil {
 		return nil, err
 	}
