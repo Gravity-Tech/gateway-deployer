@@ -59,6 +59,10 @@ func deploy(ctx *cli.Context) error {
 
 	cfg := new(config.EthereumConfig)
 	config.ParseConfig(cfgPath, cfg)
+	err := cfg.Validate()
+	if err != nil {
+		return err
+	}
 
 	fmt.Println("Deploy ethereum contracts")
 	fmt.Printf("Node url: %s\n", cfg.NodeUrl)
@@ -77,11 +81,8 @@ func deploy(ctx *cli.Context) error {
 	ethDeployer := deployer.NewEthDeployer(ethClient, transactor)
 
 	fmt.Println("Deploy gravity contract")
-	//gravityAddress, err := ethDeployer.DeployGravity(cfg.ConsulsAddress, cfg.GravityBftCoefficient, ctx.Context)
-	//if err != nil {
-	//	return err
-	//
-	gravityAddress := "0xB883418014e73228F1Ec470714802c59bB49f1eC"
+
+	gravityAddress := cfg.ExistingGravityAddress
 
 	fmt.Printf("Gravity address: %s\n", gravityAddress)
 
