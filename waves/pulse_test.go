@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/Gravity-Tech/gateway-deployer/waves/helper"
 	"math/rand"
 	"strings"
 	"testing"
@@ -30,7 +31,7 @@ const (
 	Wavelet     = 100000000
 )
 
-var config *TestPulseConfig
+var config *helper.TestPulseConfig
 var tests = map[string]func(t *testing.T){
 	"sendHashPositive":     testSendHashPositive,
 	"sendHashInvalidSigns": testSendHashInvalidSigns,
@@ -60,11 +61,11 @@ func TestPulse(t *testing.T) {
 	}
 }
 
-func initTests() (*TestPulseConfig, error) {
-	var testConfig TestPulseConfig
+func initTests() (*helper.TestPulseConfig, error) {
+	var testConfig helper.TestPulseConfig
 	testConfig.Ctx = context.Background()
 
-	cfg, err := LoadConfig("config.json")
+	cfg, err := helper.LoadConfig("config.json")
 	if err != nil {
 		return nil, err
 	}
@@ -76,23 +77,23 @@ func initTests() (*TestPulseConfig, error) {
 	testConfig.Client = wClient
 	testConfig.Helper = helpers.NewClientHelper(testConfig.Client)
 
-	testConfig.Gravity, err = GenerateAddress(cfg.ChainId)
+	testConfig.Gravity, err = helper.GenerateAddress(cfg.ChainId)
 	if err != nil {
 		return nil, err
 	}
 
-	testConfig.Nebula, err = GenerateAddress(cfg.ChainId)
+	testConfig.Nebula, err = helper.GenerateAddress(cfg.ChainId)
 	if err != nil {
 		return nil, err
 	}
 
-	testConfig.Sub, err = GenerateAddress(cfg.ChainId)
+	testConfig.Sub, err = helper.GenerateAddress(cfg.ChainId)
 	if err != nil {
 		return nil, err
 	}
 
 	for i := 0; i < ConsulCount; i++ {
-		consul, err := GenerateAddress(cfg.ChainId)
+		consul, err := helper.GenerateAddress(cfg.ChainId)
 		if err != nil {
 			return nil, err
 		}
@@ -100,7 +101,7 @@ func initTests() (*TestPulseConfig, error) {
 		testConfig.Consuls = append(testConfig.Consuls, consul)
 	}
 	for i := 0; i < OracleCount; i++ {
-		oracle, err := GenerateAddress(cfg.ChainId)
+		oracle, err := helper.GenerateAddress(cfg.ChainId)
 		if err != nil {
 			return nil, err
 		}
@@ -108,17 +109,17 @@ func initTests() (*TestPulseConfig, error) {
 		testConfig.Oracles = append(testConfig.Consuls, oracle)
 	}
 
-	gravityScript, err := ScriptFromFile(cfg.GravityScriptFile)
+	gravityScript, err := helper.ScriptFromFile(cfg.GravityScriptFile)
 	if err != nil {
 		return nil, err
 	}
 
-	nebulaScript, err := ScriptFromFile(cfg.NebulaScriptFile)
+	nebulaScript, err := helper.ScriptFromFile(cfg.NebulaScriptFile)
 	if err != nil {
 		return nil, err
 	}
 
-	subScript, err := ScriptFromFile(cfg.SubMockScriptFile)
+	subScript, err := helper.ScriptFromFile(cfg.SubMockScriptFile)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +214,7 @@ func initTests() (*TestPulseConfig, error) {
 }
 
 func testSendHashPositive(t *testing.T) {
-	cfg, _ := LoadConfig("config.json")
+	cfg, _ := helper.LoadConfig("config.json")
 
 	id := make([]byte, 32)
 	_, err := rand.Read(id)
@@ -275,7 +276,7 @@ func testSendHashPositive(t *testing.T) {
 	}
 }
 func testSendHashInvalidSigns(t *testing.T) {
-	cfg, _ := LoadConfig("config.json")
+	cfg, _ := helper.LoadConfig("config.json")
 
 	id := make([]byte, 32)
 	_, err := rand.Read(id)
@@ -337,14 +338,14 @@ func testSendHashInvalidSigns(t *testing.T) {
 		t.Fatal("invalid signs not fail in contract")
 	}
 
-	err = CheckRideError(err, "invalid bft count")
+	err = helper.CheckRideError(err, "invalid bft count")
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func testSendSubPositive(t *testing.T) {
-	cfg, _ := LoadConfig("config.json")
+	cfg, _ := helper.LoadConfig("config.json")
 
 	id := make([]byte, 32)
 	_, err := rand.Read(id)
@@ -463,7 +464,7 @@ func testSendSubPositive(t *testing.T) {
 	}
 }
 func testSendSubInvalidHash(t *testing.T) {
-	cfg, _ := LoadConfig("config.json")
+	cfg, _ := helper.LoadConfig("config.json")
 
 	id := make([]byte, 32)
 	_, err := rand.Read(id)
@@ -563,7 +564,7 @@ func testSendSubInvalidHash(t *testing.T) {
 	if err == nil {
 		t.Fatal("invalid value is sent")
 	}
-	err = CheckRideError(err, "invalid keccak256(value)")
+	err = helper.CheckRideError(err, "invalid keccak256(value)")
 	if err != nil {
 		t.Fatal(err)
 	}

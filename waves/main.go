@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/Gravity-Tech/gateway-deployer/waves/helper"
 	"os"
 	"time"
 
@@ -45,15 +46,15 @@ func main() {
 	}
 }
 
-func Deploy() (*DeploymentConfig, error) {
+func Deploy() (*helper.DeploymentConfig, error) {
 	const (
 		Wavelet = 1e8
 	)
 
-	var testConfig DeploymentConfig
+	var testConfig helper.DeploymentConfig
 	testConfig.Ctx = context.Background()
 
-	cfg, err := LoadDeploymentConfig(configFile)
+	cfg, err := helper.LoadDeploymentConfig(configFile)
 	if err != nil {
 		return nil, err
 	}
@@ -78,22 +79,22 @@ func Deploy() (*DeploymentConfig, error) {
 		}
 	}
 
-	testConfig.Nebula, err = GenerateAddressFromSeed(cfg.ChainId, cfg.NebulaContractSeed)
+	testConfig.Nebula, err = helper.GenerateAddressFromSeed(cfg.ChainId, cfg.NebulaContractSeed)
 	if err != nil {
 		return nil, err
 	}
 
-	testConfig.Sub, err = GenerateAddressFromSeed(cfg.ChainId, cfg.SubscriberContractSeed)
+	testConfig.Sub, err = helper.GenerateAddressFromSeed(cfg.ChainId, cfg.SubscriberContractSeed)
 	if err != nil {
 		return nil, err
 	}
 
-	nebulaScript, err := ScriptFromFile(cfg.NebulaScriptFile)
+	nebulaScript, err := helper.ScriptFromFile(cfg.NebulaScriptFile)
 	if err != nil {
 		return nil, err
 	}
 
-	subScript, err := ScriptFromFile(cfg.SubMockScriptFile)
+	subScript, err := helper.ScriptFromFile(cfg.SubMockScriptFile)
 	if err != nil {
 		return nil, err
 	}
