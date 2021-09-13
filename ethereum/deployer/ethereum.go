@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/Gravity-Tech/gateway/abi/ethereum/autostaking-ibport"
+	"github.com/Gravity-Tech/gateway/abi/ethereum/ibport"
 	erc20 "github.com/Gravity-Tech/gateway/abi/ethereum/erc20"
 	"github.com/Gravity-Tech/gateway/abi/ethereum/luport"
 	"github.com/Gravity-Tech/gravity-core/abi/ethereum"
