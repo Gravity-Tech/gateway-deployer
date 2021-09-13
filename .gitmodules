@@ -4,5 +4,5 @@
 	branch = main
 [submodule "core"]
 	path = core
-	url = https://github.com/Gravity-Tech/gravity-core
+	url = https://github.com/Graviton-One/gravity-core
 	branch = master
